@@ -29,9 +29,9 @@ class BoggleGame {
 
     //show status message
 
-    showMessage(message, cls) {
-        $(".message", this.board)
-        .text(message)
+    showMessage(msg, cls) {
+        $(".msg", this.board)
+        .text(msg)
         .removeClass()
         .addClass(`msg ${cls}`)
     }
@@ -45,7 +45,7 @@ class BoggleGame {
         let word = $word.val();
         if (!word) return;
 
-        if (this.word.has(word)) {
+        if (this.words.has(word)) {
             this.showMessage(`Already found ${word}`, "err");
             return;
         }
@@ -91,9 +91,9 @@ class BoggleGame {
     async scoreGame() {
         $(".add-word", this.board).hide();
         
-        const res = await axois.get("/post-score", { score: this.score });
+        const res = await axios.post("/post-score", { score: this.score });
 
-        if(res.data.brokeRecord) {
+        if (res.data.brokeRecord) {
             this.showMessage(`New record!! --> ${this.score}`, "ok");
         } else {
             this.showMessage(`Final score: ${this.score}`, "ok");
